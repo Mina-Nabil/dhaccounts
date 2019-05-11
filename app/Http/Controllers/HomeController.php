@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Laravel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -25,11 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(!Auth::check()) return redirect('/login');
         return view('home');
     }
 
     public function login(Request $request){
-        
+
         if(Auth::check()) return redirect('/home');
 
         $userName = $request->input('userName');
