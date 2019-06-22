@@ -49,6 +49,11 @@ class User extends Authenticatable
                     ->join('user_types', 'users.typeID', '=', 'user_types.id')->select('users.*', 'user_types.name')->get();
     }
 
+    public static function getUserID($userName){
+        return DB::table('users')
+                    ->where('username',$userName)->get()->first()->id;
+    }
+
     public static function getUserByID($id){
         return DB::table('users')
                     ->join('user_types', 'users.typeID', '=', 'user_types.id')->where('users.id',$id)->first();
@@ -79,7 +84,7 @@ class User extends Authenticatable
       ];
       if(!is_null($password)) $updateArray['password'] = Hash::make($password);
       if(!is_null($image)) $updateArray['image']  = $image;
-    
+
       return DB::table('users')->where('id', $id)
       ->update($updateArray);
     }

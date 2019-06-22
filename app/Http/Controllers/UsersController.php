@@ -72,7 +72,7 @@ class UsersController extends Controller
         if ($request->hasFile('photo')) {
             $path = $request->photo->store('images/users', 'public');
         }
-        
+
         User::updateUser($id, $request->input('username'), $request->input('fullname'), $request->input('typeID'), $request->input('mobNumber'), $request->input('password'), $path);
         return redirect('users/show') ;
 

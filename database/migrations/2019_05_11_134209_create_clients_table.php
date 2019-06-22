@@ -19,6 +19,7 @@ class CreateClientsTable extends Migration
             $table->string('CLNT_MOB')->nullable();
             $table->string('CLNT_CMNT')->nullable();
             $table->string('CLNT_ADRS')->nullable();
+            $table->string('CLNT_SCID')->nullable(); //segel togary
             $table->string('CLNT_ACTP');
             $table->timestamps();
         });

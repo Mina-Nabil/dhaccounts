@@ -5,6 +5,7 @@ namespace Laravel\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
+use Laravel\User;
 
 class HomeController extends Controller
 {
@@ -40,7 +41,12 @@ class HomeController extends Controller
 
         if(isset($userName)){
             if(Auth::attempt(array('username' => $userName, 'password' => $passWord), true)){
-                return redirect('/home');
+
+              $request->session()->put('userID', User::getUserID($userName));
+              $request->session()->put('userName', $userName);
+
+              return redirect('/home');
+
             } else {
                 $data['first'] = false;
                 $data['username'] = $userName;

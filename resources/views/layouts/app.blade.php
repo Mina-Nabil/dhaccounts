@@ -133,25 +133,33 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-palette"></i><span class="hide-menu">موديلات </span></a>
+
+                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-list"></i><span class="hide-menu">فواتير</span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="{{url('models/show')}}">عرض</a></li>
-                                <li><a href="{{url('models/add')}}">اضافه </a></li>
-                                <li><a href="{{url('models/types')}}">انواع موديلات </a></li>
+                            <li><a href="{{url('invoice/show')}}">عرض</a></li>
+                            <li><a href="{{url('invoice/add')}}">اضافه </a></li>
                             </ul>
                         </li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="ti-layout-grid2"></i><span class="hide-menu">اسطمبات</span></a>
+
+                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-people"></i><span class="hide-menu">عملاء </span></a>
                             <ul aria-expanded="false" class="collapse">
-                            <li><a href="{{url('stamps/show')}}">عرض</a></li>
-                            <li><a href="{{url('stamps/add')}}">اضافه </a></li>
+                                <li><a href="{{url('clients/show')}}">الكل</a></li>
+                                <li><a href="{{url('clients/show/18')}}">١٨</a></li>
+                                <li><a href="{{url('clients/show/21')}}">٢١</a></li>
+                                <li><a href="{{url('clients/add')}}">اضافه </a></li>
                             </ul>
                         </li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-list"></i><span class="hide-menu">طلبات</span></a>
+
+                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-people"></i><span class="hide-menu">موديلات و اصناف </span></a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="{{url('home')}}">عرض</a></li>
-                                <li><a href="{{url('orders/add')}}">اضافه </a></li>
+                                <li><a href="{{url('inventory/home')}}">اصناف</a></li>
+                                <li><a href="{{url('inventory/add')}}">اضافه صنف</a></li>
+                                <li><a href="{{url('models/home')}}">موديلات</a></li>
+                                <li><a href="{{url('models/add')}}">اضافه موديل</a></li>
                             </ul>
                         </li>
+
+
                         <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class=" fas fa-users"></i><span class="hide-menu">مستخدمين </span></a>
                         <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{url('users/show')}}">عرض</a></li>
@@ -264,97 +272,7 @@
     <script src="{{ asset('dist/js/pages/jasny-bootstrap.js') }}"></script>
     <script src="{{ asset('assets/node_modules/dropify/dist/js/dropify.min.js')}}"></script>
     <script src="{{ asset('assets/node_modules/select2/dist/js/select2.full.min.js') }}" type="text/javascript"></script>
-    <script  type="text/javascript">
 
-    var init = 0;
-
-    @if(isset($ModelStamps))
-
-    init = {{count($ModelStamps)}} - 1
-
-    @endif
-
-    @if(isset($Stamps))
-    var room = init + 1;
-
-    function education_fields() {
-
-        room++;
-        var objTo = document.getElementById('dynamicContainer')
-        var divtest = document.createElement("div");
-        divtest.setAttribute("class", "form-group removeclass" + room);
-        var rdiv = 'removeclass' + room;
-        var concatString = "";
-        concatString += '<div class="row">  <div class="col-sm-2 nopadding"><div id="selectHolder" class="form-group">\
-         <select class="select2 form-control  custom-select" style="height:50px;" id="stamp' + room +'" name="stamp[]">';
-        @foreach($Stamps as $stamp)
-        concatString += ' <option value="{{ $stamp->id }}">{{$stamp->STMP_SRNO}}</option> ';
-        @endforeach
-        concatString +=' </select> </div> </div> <div class="col-sm-2 nopadding"> <div class="form-group">  <input type="number" step="0.01" class="form-control" id="red" name="red[]" value="" placeholder="اللون الاحمر"> </div> </div> <div class="col-sm-1 nopadding"> <div class="form-group">  <input type="number" step="0.01" class="form-control" id="red" name="rdmm[]" value="" placeholder="مللي "> </div> </div>'
-        concatString += ' <div class="col-sm-2 nopadding"> <div class="form-group"> <input type="number" class="form-control" id="yellow" step="0.01" name="yellow[]" value="" placeholder="اللون الاصفر">  </div></div>  <div class="col-sm-1 nopadding"> <div class="form-group">  <input type="number" step="0.01" class="form-control" id="yellow" name="ylmm[]" value="" placeholder="مللي "> </div> </div>  <div class="col-sm-2 nopadding"> <div class="form-group">  <input type="number" step="0.01" class="form-control" id="white" name="white[]" value="" placeholder="اللون الابيض">  </div> </div> ';
-        concatString += '<div class="col-sm-2 nopadding">  <div class="form-group">   <div class="input-group">  <input type="number" step="0.01" class="form-control" id="white" name="whmm[]" value="" placeholder="مللي ">  <div class="input-group-append"> <button class="btn btn-danger" type="button" onclick="remove_education_fields(' + room + ');"> <i class="fa fa-minus"></i> </button></div></div></div></div><div class="clear"></div></row>';
-
-        divtest.innerHTML = concatString;
-
-        objTo.appendChild(divtest);
-
-        var target = document.getElementById('stamp' + room);
-        console.log(target)
-        $('#stamp'+room).select2();
-
-    }
-
-    function remove_education_fields(rid) {
-        $('.removeclass' + rid).remove();
-    }
-
-    @endif
-
-
-
-
-
-    @if(isset($orderItems))
-
-    init = {{count($orderItems)}} - 1
-
-    @endif
-
-    @if(isset($isDynamicForm))
-    var room = init + 1;
-
-    function education_fields() {
-
-        room++;
-        var objTo = document.getElementById('dynamicContainer')
-        var divtest = document.createElement("div");
-        divtest.setAttribute("class", "form-group removeclass" + room);
-        var rdiv = 'removeclass' + room;
-        var concatString = "";
-        concatString += '<div class="row">  <div class="col-sm-8 nopadding"><div id="selectHolder" class="form-group">\
-         <select class="select2 form-control  custom-select" style="height:50px;" id="model' + room +'" name="MODL_ID[]">';
-        @foreach($models as $model)
-        concatString += ' <option value="{{ $model->id }}">{{$model->MODL_SRNO}}</option> ';
-        @endforeach
-        concatString +=' </select> </div> </div> <div class="col-sm-4 nopadding">  <div class="form-group">   <div class="input-group">     <input type="number" step="1" class="form-control" id="red" name="ORIT_CONT[]"  placeholder="Item Count " required><div class="input-group-append"> <button class="btn btn-danger" type="button" onclick="remove_education_fields(' + room + ');"> <i class="fa fa-minus"></i> </button></div></div></div></div><div class="clear"></div></row>';
-
-        divtest.innerHTML = concatString;
-
-        objTo.appendChild(divtest);
-
-        var target = document.getElementById('model' + room);
-        console.log(target)
-        $('#model'+room).select2();
-
-    }
-
-    function remove_education_fields(rid) {
-        $('.removeclass' + rid).remove();
-    }
-
-    @endif
-
-    </script>
     <!-- Start Table Search Script -->
     <script>
     $(function() {
@@ -385,6 +303,65 @@
                         }
                     });
                 }
+            });
+            // Order by the grouping
+            $('#example tbody').on('click', 'tr.group', function() {
+                var currentOrder = table.order()[0];
+                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                    table.order([2, 'desc']).draw();
+                } else {
+                    table.order([2, 'asc']).draw();
+                }
+            });
+        });
+    });
+    $(function() {
+
+        $(function() {
+            var table = $('#yomeya').DataTable({
+                "displayLength": 25,
+                dom: 'Bfrtip',
+                buttons: [
+                  {
+                      extend: 'print',
+                      text: 'اطبع الطلب',
+                      title: 'مسعد و اشرف',
+                      customize: function ( win ) {
+
+                        $(win.document.body)
+                        .prepend('<center><img src="{{asset('images/dahab-logo.png')}}" style="position:absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; opacity:0.4" /></center>')
+                        .css( 'font-size', '24px' )
+
+                        .find( 'thead' ).prepend('<tr>' + $('#dt-header').val() + '</tr>')
+
+                        //$('#stampHeader' ).addClass( 'stampHeader' );
+                        $(win.document.body).find( 'table' )
+                               .css( 'border', 'solid')
+                               .css( 'margin-top', '20px')
+                               .css( 'font-size', 'inherit' );
+
+
+                       $(win.document.body).find('th')
+                       .css('border','solid')
+                       .css('border','!important')
+                       .css('border-width','1px')
+                       .css('font-size','inherit')
+
+                       $(win.document.body).find('td')
+                       .css('border','solid')
+                       .css('border','!important')
+                       .css('border-width','1px');
+
+                       $(win.document.body).find('tr')
+                       .css('border','solid')
+                       .css('border','!important')
+                       .css('border-width','1px')
+
+
+                        }
+                    }
+                ]
+
             });
             // Order by the grouping
             $('#example tbody').on('click', 'tr.group', function() {
@@ -491,6 +468,7 @@
         buttons: [
           {
               extend: 'print',
+              footer: true,
               text: 'اطبع الطلب',
               title: 'مسعد و اشرف',
               customize: function ( win ) {
@@ -507,10 +485,10 @@
                        .css( 'border', 'solid')
                        .css( 'font-size', 'inherit' );
 
-               $(win.document.body).find('th')
-               .css('border','solid')
-               .css('border','!important')
-               .css('border-width','1px')
+               // $(win.document.body).find('th')
+               // .css('border','solid')
+               // .css('border','!important')
+               // .css('border-width','1px')
 
                $(win.document.body).find('td')
                .css('border','solid')
@@ -610,6 +588,68 @@
             });
         });
 
+        var init = 0;
+
+        @if(isset($invoice) && array_key_exists('invoiceItems', $invoice ) )
+
+        init = {{count($invoice['invoiceItems'])}} - 1
+
+        @endif
+
+        @if(isset($isDynamicForm))
+            var room = init + 1;
+
+            function education_fields() {
+
+                room++;
+                var objTo = document.getElementById('dynamicContainer')
+                var divtest = document.createElement("div");
+                divtest.setAttribute("class", "form-group removeclass" + room);
+                var rdiv = 'removeclass' + room;
+                var concatString = "";
+                concatString += '<div class="row">  \
+                <div class="col-lg-1 ">\
+                  <div class="form-group">\
+                    <input type="number" step="0.01" min=0 class="form-control" name="milli[]" placeholder="مللي">\
+                  </div>\
+                </div>\
+                <div class="col-lg-2 ">\
+                  <div class="form-group">\
+                    <input type="number" step="0.01" min=0 class="form-control" name="gram[]" placeholder="جرام">\
+                  </div>\
+                </div>\
+                <div class="col-lg-2 ">\
+                  <div class="form-group">\
+                    <input type="number" step="0.01" min=1 class="form-control" name="count[]" placeholder="عدد">\
+                  </div>\
+                </div>\
+                <div class="col-lg-4 ">\
+                  <div class="form-group">\
+                    <input type="text" class="form-control" name="item[]" placeholder="نوع" required>\
+                  </div>\
+                </div>\
+                <div class="col-sm-3 nopadding">\
+                  <div class="form-group">\
+                  <div class="input-group">\
+                      <input type="number" step=0.01 min=0 class="form-control" name="price[]" placeholder="فئه">\
+                    <div class="input-group-append"> <button class="btn btn-danger" type="button" onclick="remove_education_fields(' + room + ');">\
+                     <i class="fa fa-minus"></i> </button>\
+                     </div>\
+                     </div>\
+                     </div>\
+                     </div><div class="clear"></div></row>';
+
+                divtest.innerHTML = concatString;
+
+                objTo.appendChild(divtest);
+
+            }
+
+            function remove_education_fields(rid) {
+                $('.removeclass' + rid).remove();
+            }
+
+            @endif
 
 
     </script>
