@@ -17,7 +17,7 @@ class CreateInvoicesTable extends Migration
             $table->bigIncrements('id');
             $table->date('INVC_DATE');
             $table->bigInteger("INVC_CLNT_ID");
-            $table->string("INVC_TOTL");
+            $table->double("INVC_TOTL");
             $table->timestamps();
         });
 

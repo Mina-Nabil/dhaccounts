@@ -31,7 +31,41 @@ function confirm(id){
     icon: "success"})
 .then((value) => {
   if(value){
+    window.location.replace('{{url("invoice/confirmrevert/")}}' + '/' +id)
+
+    }
+});
+
+}
+
+function confirm(id){
+
+
+  swal({
+    title: "تأكيد طلب",
+    text: "سوف يتم تأكيد الطلب ، هل تريد الاستمرار ؟",
+    buttons: true,
+    icon: "success"})
+.then((value) => {
+  if(value){
     window.location.replace('{{url("invoice/confirm/")}}' + '/' +id)
+
+    }
+});
+
+}
+
+function revert(id){
+
+
+  swal({
+    title: "استرجاع الفاتوره",
+    text: "سوف يتم استرجاع الفاتوره، هل تريد الاستمرار ؟",
+    buttons: true,
+    icon: "error"})
+.then((value) => {
+  if(value){
+    window.location.replace('{{url("invoice/revert/")}}' + '/' +id)
 
     }
 });
@@ -124,6 +158,7 @@ function confirm(id){
               <div class="card">
                   <div class="card-body">
                       <h4 class="card-title">تفاصيل الفاتوره</h4>
+                      <h5 class="card-subtitle">{{ $invoiceType }}</h5>
                       <div class="table-responsive m-t-40">
 
                         <input type=hidden  id="dt-header" value="
@@ -195,6 +230,10 @@ function confirm(id){
                   <button onclick="confirm({{$invoice['invoiceData']->id}})" class="btn btn-success">تأكيد الطلب</button>
                   <a href="{{url('invoice/modify/'. $invoice['invoiceData']->id) }}" class="btn btn-info">تعديل الطلب</a>
                   <button onclick="cancel({{$invoice['invoiceData']->id}})" class="btn btn-dark">إلغاء الطلب</button>
+                  @elseif($invoice['invoiceData']->INVC_STAT == 1)
+                  <button onclick="revert({{$invoice['invoiceData']->id}})" class="btn btn-danger">إسترجاع الفاتوره</button>
+                  @elseif($invoice['invoiceData']->INVC_STAT == 3)
+                  <button onclick="confirmRevert({{$invoice['invoiceData']->id}})" class="btn btn-success">تأكيد الفاتوره المرتجع</button>
                   @endif
               </div>
           </div>

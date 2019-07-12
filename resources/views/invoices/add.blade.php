@@ -50,7 +50,16 @@
                         </div>
                         <div class="col-lg-4 ">
                           <div class="form-group">
-                            <input value="{{$item->INIT_ITEM}}" type="text" class="form-control" name="item[]" placeholder="نوع" required>
+                            <select name="item[]" class="select form-control custom-select" required>
+                              @foreach($inventory as $models)
+                                <option value="{{$models->INVT_NAME}}"
+                                  @if(strcmp($models->INVT_NAME, $item->INIT_ITEM)==0)
+                                  selected
+                                  @endif
+                                  >{{$models->INVT_NAME . ' - عدد:  ' . $models->INVT_CONT}}</option>
+                              @endforeach
+                            </select>
+
                           </div>
                         </div>
 
@@ -95,7 +104,13 @@
                       </div>
                       <div class="col-lg-4 ">
                         <div class="form-group">
-                          <input type="text" class="form-control" name="item[]" placeholder="نوع" required>
+                          <select name="item[]" class="select form-control custom-select" required>
+                            @foreach($inventory as $models)
+                              <option value="{{$models->INVT_NAME}}">
+                                {{$models->INVT_NAME . ' - عدد:  ' . $models->INVT_CONT}}
+                              </option>
+                            @endforeach
+                          </select>
                         </div>
                       </div>
 

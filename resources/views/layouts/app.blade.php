@@ -138,6 +138,7 @@
                             <ul aria-expanded="false" class="collapse">
                             <li><a href="{{url('invoice/show')}}">عرض</a></li>
                             <li><a href="{{url('invoice/add')}}">اضافه </a></li>
+                            <li><a href="{{url('invoice/addrevert')}}">اضافه فاتوره مرتجع </a></li>
                             </ul>
                         </li>
 
@@ -149,8 +150,15 @@
                                 <li><a href="{{url('clients/add')}}">اضافه </a></li>
                             </ul>
                         </li>
+                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class=" fas fa-cogs"></i><span class="hide-menu">ورش </span></a>
+                            <ul aria-expanded="false" class="collapse">
+                              <li><a href="{{url('transactions/show')}}">عرض تعاملات الورش</a></li>
+                                <li><a href="{{url('workshops/show')}}">عرض الورش</a></li>
+                                <li><a href="{{url('workshops/add')}}">اضافه </a></li>
+                            </ul>
+                        </li>
 
-                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-people"></i><span class="hide-menu">موديلات و اصناف </span></a>
+                        <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-barcode"></i><span class="hide-menu">موديلات و اصناف </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{url('inventory/home')}}">اصناف</a></li>
                                 <li><a href="{{url('inventory/add')}}">اضافه صنف</a></li>
@@ -189,12 +197,14 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor"> حسابات العملاء</h4>
+                        <h4 class="text-themecolor"> الحسابات</h4>
                     </div>
                     <div class="col-md-7 align-self-center text-right">
                         <div class="d-flex justify-content-end align-items-center">
                             <a  href="{{url('ledger/add')}}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> اضافه يوميه </a>
                             <a  href="{{url('invoice/add')}}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> اضافه فاتوره </a>
+                            <a  href="{{url('transactions/add')}}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> اضافه تعاملات ورش </a>
+                            <a  href="{{url('invoice/addrevert')}}" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> اضافه فاتوره مرتجع </a>
                         </div>
                     </div>
                 </div>
@@ -324,7 +334,7 @@
                 buttons: [
                   {
                       extend: 'print',
-                      text: 'اطبع الطلب',
+                      text: 'اطبع',
                       title: 'مسعد و اشرف',
                       customize: function ( win ) {
 
@@ -423,7 +433,7 @@
         buttons: [
           {
               extend: 'print',
-              text: 'اطبع الطلب',
+              text: 'اطبع',
               title: 'مسعد و اشرف',
               customize: function ( win ) {
 
@@ -469,7 +479,7 @@
           {
               extend: 'print',
               footer: true,
-              text: 'اطبع الطلب',
+              text: 'اطبع',
               title: 'مسعد و اشرف',
               customize: function ( win ) {
 
@@ -607,15 +617,14 @@
                 divtest.setAttribute("class", "form-group removeclass" + room);
                 var rdiv = 'removeclass' + room;
                 var concatString = "";
-                concatString += '<div class="row">  \
-                <div class="col-lg-1 ">\
+                concatString += '<div class="row"><div class="col-lg-1 ">\
                   <div class="form-group">\
                     <input type="number" step="0.01" min=0 class="form-control" name="milli[]" placeholder="مللي">\
                   </div>\
                 </div>\
                 <div class="col-lg-2 ">\
                   <div class="form-group">\
-                    <input type="number" step="0.01" min=0 class="form-control" name="gram[]" placeholder="جرام">\
+                    <input type="number" step="0.01" min=0 class="form-control" name="gram[]" placeholder="جرام" required>\
                   </div>\
                 </div>\
                 <div class="col-lg-2 ">\
@@ -624,14 +633,19 @@
                   </div>\
                 </div>\
                 <div class="col-lg-4 ">\
-                  <div class="form-group">\
-                    <input type="text" class="form-control" name="item[]" placeholder="نوع" required>\
-                  </div>\
+                <div class="form-group">\
+                  <select name="item[]" class="select form-control custom-select" required>\
+                    @foreach($inventory as $models)\
+                      <option value="{{$models->INVT_NAME}}"\
+                        >{{$models->INVT_NAME. " - عدد:  " . $models->INVT_CONT}}</option>\
+                    @endforeach\
+                  </select>\
+                </div>\
                 </div>\
                 <div class="col-sm-3 nopadding">\
                   <div class="form-group">\
                   <div class="input-group">\
-                      <input type="number" step=0.01 min=0 class="form-control" name="price[]" placeholder="فئه">\
+                      <input type="number" step=0.01 min=0 class="form-control" name="price[]" placeholder="فئه" required>\
                     <div class="input-group-append"> <button class="btn btn-danger" type="button" onclick="remove_education_fields(' + room + ');">\
                      <i class="fa fa-minus"></i> </button>\
                      </div>\

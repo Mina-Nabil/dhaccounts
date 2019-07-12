@@ -18,8 +18,22 @@ function cancel(id){
     }
 });
 
+}
+
+function revert(id){
 
 
+  swal({
+    title: "استرجاع الفاتوره",
+    text: "سوف يتم استرجاع الفاتوره، هل تريد الاستمرار ؟",
+    buttons: true,
+    icon: "error"})
+.then((value) => {
+  if(value){
+    window.location.replace('{{url("invoice/revert/")}}' + '/' +id)
+
+    }
+});
 
 }
 
@@ -63,6 +77,10 @@ function cancel(id){
                                   <span class="label label-success">مؤكده</span>
                                   @elseif($invoice->INVC_STAT == 2)
                                   <span class="label label-danger">ملغي</span>
+                                  @elseif($invoice->INVC_STAT == 4)
+                                  <span class="label label-danger">تم استرجاع الفاتوره</span>
+                                  @elseif($invoice->INVC_STAT == 5)
+                                  <span class="label label-inverted">فاتوره مرتجع</span>
                                   @endif
                                 </a>
                                 </td>
@@ -71,6 +89,8 @@ function cancel(id){
                                   @if($invoice->INVC_STAT == 0)
                                   <a href="{{ url('invoice/modify/' . $invoice->id) }}"><i class="m-l-10  fas fa-edit" style="color:#343a40; font-size: 20px;"></i></a>
                                   <button class="btn" onclick="cancel({{$invoice->id}})"><i class="m-l-10 fas fa-window-close" style="color:#e46a76; font-size: 20px;"></i></button>
+                                  @elseif($invoice->INVC_STAT == 1)
+                                  <button class="btn" onclick="revert({{$invoice->id}})"><i class="m-l-10 fas fa-window-close" style="color:#e46a76; font-size: 20px;"></i></button>
                                   @endif
                                 </td>
                             </tr>

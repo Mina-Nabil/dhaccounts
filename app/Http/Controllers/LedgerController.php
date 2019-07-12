@@ -5,6 +5,7 @@ namespace Laravel\Http\Controllers;
 use Illuminate\Http\Request;
 use Laravel\Ledger;
 use Laravel\Clients;
+use Laravel\Workshops;
 use Auth;
 
 class LedgerController extends Controller
@@ -30,6 +31,8 @@ class LedgerController extends Controller
         $data['clientPage'] = false;
         $data['maxLedger'] = Ledger::getLastEntry();
         $data['Ledger']    = Ledger::getFullLedger();
+        $data['workshops'] = Workshops::getTotals();
+        $data['clients'] = Clients::getTotals();
         $data['totalGold'] = ($data['maxLedger']->LDGR_GD18_CURR * (18/24) ) + ($data['maxLedger']->LDGR_GD21_CURR * (21/24) );
         $data['total18'] = ($data['maxLedger']->LDGR_GD18_CURR * (18/24) );
         $data['percent18'] = $data['total18']  /  $data['totalGold'] * 100;
@@ -50,7 +53,7 @@ class LedgerController extends Controller
     }
 
     public function insert(Request $request){
-    
+
       //Radiobuttons
       $goldRadio = $request->goldRadio;
       $gold21Radio = $request->gold21Radio;

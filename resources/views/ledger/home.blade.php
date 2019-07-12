@@ -4,6 +4,7 @@
 <!-- ============================================================== -->
 <!-- Info box -->
 <!-- ============================================================== -->
+<h4 class="d-inline m-b-15">الخزنه</h4>
 <div class="card-group">
     <div class="card">
         <div class="card-body">
@@ -28,13 +29,7 @@
                         </div>
                     </div>
                 </div>
-                @if(!$clientPage)
-                <div class="col-12">
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{$percent21}}%; height: 6px;" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-                @endif
+
             </div>
         </div>
     </div>
@@ -63,13 +58,7 @@
                         </div>
                     </div>
                 </div>
-                @if(!$clientPage)
-                <div class="col-12">
-                    <div class="progress">
-                        <div class="progress-bar bg-cyan" role="progressbar" style="width: {{$percent18}}%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-                @endif
+
             </div>
         </div>
     </div>
@@ -94,17 +83,126 @@
                         </div>
                     </div>
                 </div>
-                @if(!$clientPage)
-                <div class="col-12">
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-                @endif
+
             </div>
         </div>
     </div>
 </div>
+@if(!$clientPage)
+<h4 class="d-inline m-b-15">العملاء</h4>
+<div class="card-group">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex no-block align-items-center">
+                        <div>
+                            <p class="text-muted">اجمالي رصيد ذهب ٢١</p>
+                        </div>
+                        <div class="ml-auto">
+                            <h2 class="counter text-primary"> {{number_format($clients['gold21'])}} جم  </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <!-- Column -->
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex no-block align-items-center">
+                        <div>
+                          <p class="text-muted">اجمالي رصيد ذهب ١٨</p>
+                        </div>
+                        <div class="ml-auto">
+                          <h2 class="counter text-cyan"> {{number_format($clients['gold18'])}} جم  </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+
+    <!-- Column -->
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="d-flex no-block align-items-center">
+                      <div>
+                        <p class="text-muted">اجمالي رصيد نقديه</p>
+                      </div>
+                      <div class="ml-auto">
+                        <h2 class="counter text-success"> {{number_format($clients['money'])}} جنيه  </h2>
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h4 class="d-inline m-b-15">الورش</h4>
+<div class="card-group">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex no-block align-items-center">
+                        <div>
+                            <p class="text-muted">اجمالي رصيد ذهب ٢١</p>
+                        </div>
+                        <div class="ml-auto">
+                            <h2 class="counter text-primary"> {{number_format($workshops['gold21'])}} جم  </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <!-- Column -->
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex no-block align-items-center">
+                        <div>
+                          <p class="text-muted">اجمالي رصيد ذهب ١٨</p>
+                        </div>
+                        <div class="ml-auto">
+                          <h2 class="counter text-cyan"> {{number_format($workshops['gold18'])}} جم  </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+
+    <!-- Column -->
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="d-flex no-block align-items-center">
+                      <div>
+                        <p class="text-muted">اجمالي رصيد نقديه</p>
+                      </div>
+                      <div class="ml-auto">
+                        <h2 class="counter text-success"> {{number_format($workshops['money'])}} جنيه  </h2>
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endif
 <!-- ============================================================== -->
 <!-- End Info box -->
 <!-- ============================================================== -->
@@ -155,15 +253,28 @@
                             @foreach($Ledger as $key => $ledgeraya)
                             <tr
                             @if(isset($ledgeraya->LDGR_CMNT))
-                            class="table-warning"
+                            title='{{$ledgeraya->LDGR_CMNT}}'
                             @endif
-                             title="{{$ledgeraya->LDGR_CMNT}}">
+                            >
                                 <td>{{$ledgeraya->LDGR_DATE}}</td>
-                                <td>
+                                  @if(isset($ledgeraya->LDGR_CLNT_ID))
+                                  <td
+                                  @if(isset($ledgeraya->LDGR_CMNT))
+
+                                  title="{{$ledgeraya->LDGR_CMNT}}"
+                                  @endif
+                                  >
                                   <a href="{{url('ledger/show/' . $ledgeraya->LDGR_CLNT_ID)}}" >
+                                  @if(isset($ledgeraya->LDGR_CMNT))<em>@endif
                                     {{$ledgeraya->CLNT_NAME . ' ' . $ledgeraya->CLNT_ACTP}}
+                                    @if(isset($ledgeraya->LDGR_CMNT))</em>@endif
                                   </a>
-                                </td>
+                                  </td>
+                                  @elseif(isset($ledgeraya->LDGR_CMNT))
+                                  <td class="text-black" >
+                                  {{$ledgeraya->LDGR_CMNT}}
+                                  </td>
+                                  @endif
                                 <td>{{number_format($ledgeraya->LDGR_GD21_AMNT)}}</td>
                                 <td>{{number_format($ledgeraya->LDGR_GD18_AMNT)}}</td>
                                 @if($clientPage)
@@ -179,12 +290,18 @@
                                 <td>{{number_format($ledgeraya->LDGR_MONY_CURR)}}</td>
                                 <td>{{$ledgeraya->username}}</td>
                                 <td>
-                                @if ($key==0 && !(isset($ledgeraya->LDGR_CMNT) && strpos($ledgeraya->LDGR_CMNT, 'فاتوره') !== false))
+                                @if ($key==0 && !(isset($ledgeraya->LDGR_CMNT)
+                                && strpos($ledgeraya->LDGR_CMNT, 'فاتوره') !== false
+                                || strpos($ledgeraya->LDGR_CMNT, 'من اليوميه') !== false
+                                || strpos($ledgeraya->LDGR_CMNT, 'من ورشه') !== false
+                                )
+                                )
                                   <a href="{{ url('ledger/delete') }}"  onclick="return confirm('هل انت متاكد انك تريد الغاء المعامله؟')"><img src="{{ asset('images/del.png') }}" width=25 height=25></img></a>
                                 @endif
                                 </td>
                                 @endif
                             </tr>
+
                             @endforeach
                         </tbody>
                     </table>

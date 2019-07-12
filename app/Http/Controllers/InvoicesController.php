@@ -5,6 +5,8 @@ namespace Laravel\Http\Controllers;
 use Illuminate\Http\Request;
 use Laravel\Invoices;
 use Laravel\Clients;
+use Laravel\Inventory;
+
 use Auth;
 
 class InvoicesController extends Controller
@@ -21,6 +23,15 @@ class InvoicesController extends Controller
 
     public function show($id){
       $data['invoice'] = Invoices::getInvoice($id);
+      if($data['invoice']['invoiceData']->INVC_STAT == 3 || $data['invoice']['invoiceData']->INVC_STAT == 5)
+        $data['invoiceType'] = "فاتوره مرتجع";
+      elseif( $data['invoice']['invoiceData']->INVC_STAT == 4)
+        $data['invoiceType'] = "فاتوره بيع و تم استرجعها";
+      else
+        $data['invoiceType'] = "فاتوره بيع ";
+
+
+
       return view('invoices.profile', $data);
     }
 
@@ -31,6 +42,20 @@ class InvoicesController extends Controller
       $data['formURL'] = url('invoice/insert');
       $data['isDynamicForm'] = true;
       $data['clients'] = Clients::getClients();
+      $data['inventory']   = Inventory::getItems();
+
+      return view('invoices.add', $data);
+
+    }
+
+    public function addRevert(){
+
+      $data['pageTitle'] = "اضافه فاتوره مرتجع";
+      $data['pageDescription'] = "اضافه فاتوره مرتجع جديده";
+      $data['formURL'] = url('invoice/insertrevert');
+      $data['isDynamicForm'] = true;
+      $data['clients'] = Clients::getClients();
+      $data['inventory']   = Inventory::getItems();
 
       return view('invoices.add', $data);
 
@@ -45,6 +70,15 @@ class InvoicesController extends Controller
       return redirect('invoice/show/' . $invoiceID);
     }
 
+    public function insertRevert(Request $request){
+      $clientID   = $request->clientID;
+      $clientType = Clients::getClient($clientID)->CLNT_ACTP;
+      $itemsArray = $this->getItemsArray($request, $clientType);
+
+      $invoiceID = Invoices::insertRevertInvoice($clientID, $itemsArray);
+      return redirect('invoice/show/' . $invoiceID);
+    }
+
     public function edit($id){
       $data['invoice'] = Invoices::getInvoice($id);
 
@@ -55,6 +89,7 @@ class InvoicesController extends Controller
       $data['formURL'] = url('invoice/edit/' . $data['invoice']['invoiceData']->id );
       $data['isDynamicForm'] = true;
       $data['clients'] = Clients::getClients();
+      $data['inventory']   = Inventory::getItems();
 
       return view('invoices.add', $data);
     }
@@ -73,8 +108,18 @@ class InvoicesController extends Controller
       return redirect("invoice/show/" . $id);
     }
 
+    public function confirmRevert($id){
+      Invoices::confirmRevertInvoice($id, Auth::id());
+      return redirect("invoice/show/" . $id);
+    }
+
     public function cancelInvoice($id){
       Invoices::cancelInvoice($id);
+      return redirect("invoice/show");
+    }
+
+    public function revertInvoice($id){
+      Invoices::revertInvoice($id, Auth::id());
       return redirect("invoice/show");
     }
 

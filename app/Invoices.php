@@ -5,6 +5,8 @@ namespace Laravel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+use Laravel\Inventory;
+
 class Invoices extends Model
 {
     public static function getAllInvoices(){
@@ -38,6 +40,10 @@ class Invoices extends Model
         $gold = $invoice->INVC_TOTL_GOLD;
 
         Ledger::insertLedger($clientID, $userID, $totalPrice*-1, $gold*-1, $gold*-1, true, "فاتوره رقم " . $id );
+        $items = DB::table('invoice_items')->where('INIT_INVC_ID', $id)->get();
+        foreach($items as $item){
+          Inventory::incrementInventorybyName($item->INIT_ITEM, $item->INIT_CONT*-1);
+        }
 
       });
     }
@@ -119,5 +125,83 @@ class Invoices extends Model
     }
 
 
+    public static function insertRevertInvoice($clientID, $itemsArray){
+
+      $totalPrice = 0;
+      $totalGold = 0;
+      foreach($itemsArray as $item){
+        $totalGold += ($item['gram'] + $item['milli']/1000) ;
+        $totalPrice += $item['price'] * ($item['gram'] + $item['milli']/1000);
+      }
+
+      return DB::transaction(function () use ($clientID, $itemsArray, $totalPrice, $totalGold){
+        $invoiceID = DB::table('invoices')->insertGetId([
+          'INVC_DATE'     => date('Y-m-d'),
+          'INVC_CLNT_ID'  => $clientID,
+          'INVC_STAT'  => 3, //Unconfirmed Revert invoice
+          'INVC_TOTL'     => $totalPrice,
+          'INVC_TOTL_GOLD' => $totalGold
+        ]);
+
+
+        foreach($itemsArray as $item){
+          DB::table('invoice_items')->insert([
+            'INIT_INVC_ID' => $invoiceID,
+            'INIT_MLLI' => $item['milli'],
+            'INIT_GRAM' => $item['gram'],
+            'INIT_CONT' => $item['count'],
+            'INIT_GOLD_TYPE' => $item['type'],
+            'INIT_ITEM' => $item['item'],
+            'INIT_PRCE' => $item['price']
+          ]);
+        }
+        return $invoiceID;
+      });
+
+
+    }
+
+    public static function confirmRevertInvoice($id, $userID){
+      DB::transaction(function () use ($id, $userID) {
+        DB::table('invoices')->where('id', $id)->update([
+          'INVC_STAT' => 5, //Invert Invoice insert
+          'INVC_DATE'     => date('Y-m-d')
+        ]);
+
+        $invoice = DB::table('invoices')->find($id);
+        $totalPrice = $invoice->INVC_TOTL;
+        $clientID = $invoice->INVC_CLNT_ID;
+        $gold = $invoice->INVC_TOTL_GOLD;
+
+        Ledger::insertLedger($clientID, $userID, $totalPrice, $gold, $gold, true, "فاتوره مرتجع رقم " . $id );
+        $items = DB::table('invoice_items')->where('INIT_INVC_ID', $id)->get();
+        foreach($items as $item){
+          Inventory::incrementInventorybyName($item->INIT_ITEM, $item->INIT_CONT);
+        }
+
+      });
+    }
+
+
+    public static function revertInvoice($id, $userID){
+      DB::transaction(function () use ($id, $userID) {
+        DB::table('invoices')->where('id', $id)->update([
+          'INVC_STAT' => 4, //A normal but inverted invoice
+          'INVC_DATE'     => date('Y-m-d')
+        ]);
+
+        $invoice = DB::table('invoices')->find($id);
+        $totalPrice = $invoice->INVC_TOTL;
+        $clientID = $invoice->INVC_CLNT_ID;
+        $gold = $invoice->INVC_TOTL_GOLD;
+
+        Ledger::insertLedger($clientID, $userID, $totalPrice, $gold, $gold, true, "فاتوره مرتجع رقم " . $id );
+        $items = DB::table('invoice_items')->where('INIT_INVC_ID', $id)->get();
+        foreach($items as $item){
+          Inventory::incrementInventorybyName($item->INIT_ITEM, $item->INIT_CONT);
+        }
+
+      });
+    }
 
 }

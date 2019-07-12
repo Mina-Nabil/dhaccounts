@@ -20,6 +20,15 @@ class Clients extends Model
       return DB::table('clients')->find($id);
     }
 
+    public static function getTotals(){
+
+      $totals['gold18'] = DB::table('clients')->where('CLNT_ACTP', 21)->sum('CLNT_CRGD');
+      $totals['gold21'] = DB::table('clients')->where('CLNT_ACTP', 18)->sum('CLNT_CRGD');
+      $totals['money'] = DB::table('clients')->sum('CLNT_CRMN');
+
+      return $totals;
+    }
+
     public static function insertClient($Name, $Type, $Gold, $Money, $Address=null, $Mob=null, $Scid=null, $Comment=null){
       return DB::table('clients')->insertGetId([
         'CLNT_NAME' => $Name,
