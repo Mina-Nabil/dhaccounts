@@ -68,8 +68,8 @@ class Invoices extends Model
         $invoiceID = DB::table('invoices')->insertGetId([
           'INVC_DATE'     => date('Y-m-d'),
           'INVC_CLNT_ID'  => $clientID,
-          'INVC_TOTL'     => number_format($totalPrice, 2),
-          'INVC_TOTL_GOLD' => number_format($totalGold, 3)
+          'INVC_TOTL'     => $totalPrice,
+          'INVC_TOTL_GOLD' => $totalGold
         ]);
 
         // DB::table('invoice_items')->where('INIT_INVC_ID', $invoiceID)->delete();

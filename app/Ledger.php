@@ -35,6 +35,19 @@ class Ledger extends Model
       ->get();
     }
 
+    public static function getClientRecords($clientID, $startDate, $endDate){
+      return DB::table('ledger')
+      ->leftJoin('clients', 'clients.id', '=', 'ledger.LDGR_CLNT_ID')
+      ->join('users', 'users.id', '=', 'ledger.LDGR_USER_ID')
+      ->select('ledger.*', 'clients.*', 'users.username')
+      ->orderby('ledger.id', 'desc')
+      ->where('LDGR_CLNT_ID', $clientID)
+      ->where('LDGR_DATE', '>' , $startDate)
+      ->where('LDGR_DATE', '<' , $endDate)
+      ->limit(500)
+      ->get();
+    }
+
     public static function insertLedger($clientID, $userID, $moneyAmount, $gold21Amount=0, $gold18Amount=0, $isGoldDiff=false, $comment=null , $isInvoice = false){
 
       DB::transaction(function () use ($clientID, $userID, $gold21Amount, $gold18Amount, $moneyAmount, $isGoldDiff, $comment){

@@ -33,6 +33,8 @@ Route::post('invoice/edit/{id}', 'InvoicesController@updateData');
 //Ledger
 Route::get('ledger/show', 'LedgerController@home');
 Route::get('ledger/show/{id}', 'LedgerController@home');
+Route::get('ledger/pw', 'LedgerController@pw');
+Route::post('ledger/total', 'LedgerController@totals');
 Route::get('ledger/add', 'LedgerController@addPage');
 Route::post('ledger/insert', 'LedgerController@insert');
 Route::get('ledger/delete', 'LedgerController@delete');
@@ -46,6 +48,7 @@ Route::post('transactions/insert', 'TransactionsController@insert');
 Route::get('clients/show', 'ClientsController@home');
 Route::get('clients/show/{type}', 'ClientsController@home');
 Route::get('clients/add', 'ClientsController@add');
+Route::post('clients/records', 'ClientsController@records');
 Route::post('clients/insert', 'ClientsController@insert');
 Route::get('clients/edit/{id}', 'ClientsController@edit');
 Route::post('clients/modify/{id}', 'ClientsController@modify');

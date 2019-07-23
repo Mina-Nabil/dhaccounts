@@ -88,121 +88,7 @@
         </div>
     </div>
 </div>
-@if(!$clientPage)
-<h4 class="d-inline m-b-15">العملاء</h4>
-<div class="card-group">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex no-block align-items-center">
-                        <div>
-                            <p class="text-muted">اجمالي رصيد ذهب ٢١</p>
-                        </div>
-                        <div class="ml-auto">
-                            <h2 class="counter text-primary"> {{number_format($clients['gold21'])}} جم  </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-    <!-- Column -->
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex no-block align-items-center">
-                        <div>
-                          <p class="text-muted">اجمالي رصيد ذهب ١٨</p>
-                        </div>
-                        <div class="ml-auto">
-                          <h2 class="counter text-cyan"> {{number_format($clients['gold18'])}} جم  </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
 
-    <!-- Column -->
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-              <div class="col-md-12">
-                  <div class="d-flex no-block align-items-center">
-                      <div>
-                        <p class="text-muted">اجمالي رصيد نقديه</p>
-                      </div>
-                      <div class="ml-auto">
-                        <h2 class="counter text-success"> {{number_format($clients['money'])}} جنيه  </h2>
-                      </div>
-                  </div>
-              </div>
-            </div>
-        </div>
-    </div>
-</div>
-<h4 class="d-inline m-b-15">الورش</h4>
-<div class="card-group">
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex no-block align-items-center">
-                        <div>
-                            <p class="text-muted">اجمالي رصيد ذهب ٢١</p>
-                        </div>
-                        <div class="ml-auto">
-                            <h2 class="counter text-primary"> {{number_format($workshops['gold21'])}} جم  </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-    <!-- Column -->
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex no-block align-items-center">
-                        <div>
-                          <p class="text-muted">اجمالي رصيد ذهب ١٨</p>
-                        </div>
-                        <div class="ml-auto">
-                          <h2 class="counter text-cyan"> {{number_format($workshops['gold18'])}} جم  </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Column -->
-
-    <!-- Column -->
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-              <div class="col-md-12">
-                  <div class="d-flex no-block align-items-center">
-                      <div>
-                        <p class="text-muted">اجمالي رصيد نقديه</p>
-                      </div>
-                      <div class="ml-auto">
-                        <h2 class="counter text-success"> {{number_format($workshops['money'])}} جنيه  </h2>
-                      </div>
-                  </div>
-              </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@endif
 <!-- ============================================================== -->
 <!-- End Info box -->
 <!-- ============================================================== -->
@@ -310,4 +196,37 @@
         </div>
     </div>
 </div>
+
+@if($clientPage)
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">كشف حساب</h4>
+                <form class="form pt-3" method="post" action="{{ $clientFormURL }}" enctype="multipart/form-data" >
+            @csrf
+
+            <input type=hidden name=clientID value="{{$client->id}}">
+
+              <div class="form-group">
+                  <label>من*</label>
+                  <div class="input-group mb-3">
+                      <input type="date" class="form-control" placeholder="Start Date" name=startDate aria-describedby="basic-addon11" >
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label>الي*</label>
+                  <div class="input-group mb-3">
+                      <input type="date" class="form-control" placeholder="End Date" name=endDate aria-describedby="basic-addon11" value="{{date('Y-m-d')}}" >
+                  </div>
+              </div>
+
+              <button type="submit" id=submit class="btn btn-success mr-2" >Submit</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+@endif
+
 @endsection

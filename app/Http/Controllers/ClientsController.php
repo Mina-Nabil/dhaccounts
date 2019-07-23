@@ -4,6 +4,7 @@ namespace Laravel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laravel\Clients;
+use Laravel\Ledger;
 
 class ClientsController extends Controller
 {
@@ -33,6 +34,24 @@ class ClientsController extends Controller
 
       $data['Clients'] = $Clients;
       return view('clients/home', $data);
+    }
+
+
+    public function records(Request $request){
+
+      $clientID = $request->clientID;
+      $startDate = $request->startDate;
+      $endDate   = $request->endDate;
+
+      $data['client'] = Clients::getClient($clientID);
+
+      if(!isset($data['client']->CLNT_NAME)) return redirect("home");
+
+      $data['clientPage'] = true;
+      $data['clientFormURL'] = url('clients/records');
+      $data['Ledger']    = Ledger::getClientRecords($clientID, $startDate, $endDate);
+
+      return view('ledger.home', $data);
     }
 
     public function add(){

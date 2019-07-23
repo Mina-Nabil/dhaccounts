@@ -145,6 +145,7 @@
                         <li> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-people"></i><span class="hide-menu">عملاء </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{url('clients/show')}}">الكل</a></li>
+                                <li><a href="{{url('ledger/pw')}}">جرد</a></li>
                                 <li><a href="{{url('clients/show/18')}}">١٨</a></li>
                                 <li><a href="{{url('clients/show/21')}}">٢١</a></li>
                                 <li><a href="{{url('clients/add')}}">اضافه </a></li>
