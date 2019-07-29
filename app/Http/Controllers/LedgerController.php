@@ -67,7 +67,7 @@ class LedgerController extends Controller
 
     public function totals(Request $request){
       $password = $request->password12 ;
-      if(strcmp($password, "clark123") !=0 ){
+      if(strcmp($password, "2709") !=0 ){
         return redirect('home');
       }
 
