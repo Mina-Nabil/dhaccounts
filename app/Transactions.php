@@ -24,25 +24,32 @@ class Transactions extends Model
     * fromID = 0 -> ledger to workshop
     * toID = 0 -> workshop to inventory
     */
-   public static function insertTransaction($fromWorkshop, $toWorkshop, $gold18=0, $gold21=0, $money=0, $userID, $inventoryID = null, $count=null){
-     return DB::transaction(function () use ($fromWorkshop, $toWorkshop, $gold18, $gold21, $money, $userID, $inventoryID, $count) {
+   public static function insertTransaction($fromWorkshop, $toWorkshop, $gold18=0, $gold21=0, $money=0, $userID, $inventoryID = null, $count=null, $isSalary=false){
+     return DB::transaction(function () use ($fromWorkshop, $toWorkshop, $gold18, $gold21, $money, $userID, $inventoryID, $count, $isSalary) {
        if($fromWorkshop == 0 && $toWorkshop == 0) return false;
 
        if($fromWorkshop == 0 ){
+		   $isSalary=false;
          $workshopName = Workshops::get($toWorkshop)->WKSP_NAME;
          Ledger::insertLedger(null, $userID, $money*-1, $gold21*-1, $gold18*-1, false, " من اليوميه الي  " . $workshopName , false);
-       } else {
+       } else if(!$isSalary) {
          Workshops::updateWorkshopBalance($fromWorkshop, -1*$gold18, -1*$gold21, -1*$money);
-       }
+       } else{
+		 Workshops::updateWorkshopBalance($fromWorkshop, -1*$gold18, -1*$gold21, 0);
+	   }
+	   
 
        if($toWorkshop == 0){
+		   $isSalary=false;
          $workshopName = Workshops::get($fromWorkshop)->WKSP_NAME;
          Ledger::insertLedger(null, $userID, $money , $gold21, $gold18, false, "من " . $workshopName . " الي المخزن ", false);
          if(isset($inventoryID) && isset($count))
          Inventory::incrementInventory($inventoryID, $count);
-       } else if($toWorkshop != 0){
+       } else if( !$isSalary){
          Workshops::updateWorkshopBalance($toWorkshop, $gold18, $gold21, $money);
-       }
+       } else {
+		 Workshops::updateWorkshopBalance($fromWorkshop, $gold18, $gold21, -1*$money);
+	   }
 
        DB::table('transactions')->insert([
          "WKTN_WKSP_FROM" => $fromWorkshop,

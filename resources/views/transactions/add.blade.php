@@ -34,7 +34,7 @@
                             </div>
                             <select class="select2 form-control  custom-select" style="height:55px;"  name="toID"  required >
                             <option selected disabled>اختر الورشه</option>
-                            <option value=0>المخزن</option>
+                            <option value=0>اليوميه</option>
                             @foreach($workshops as $workshop)
                             <option value="{{ $workshop->id }}">
                               {{$workshop->WKSP_NAME}}
@@ -69,6 +69,13 @@
                           </div>
                           <input type="number" min=0 step="0.01" class="form-control" placeholder="Money Entry" name=Money aria-label="Money Entry" aria-describedby="basic-addon11" value="{{ (old('Money')) ? old('Money') : 0}}">
                       </div>
+                    </div>
+					
+					<div class="form-group"  >
+                        <div class="custom-control custom-checkbox mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" id=checkbox10 name=isSalary value="check">
+                            <label class="custom-control-label" for="checkbox10">&nbsp &nbsp &nbsp &nbsp اجره </label>
+                        </div>
                     </div>
 
                     <div class="form-group">
