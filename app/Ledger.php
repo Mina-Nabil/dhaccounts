@@ -112,9 +112,9 @@ class Ledger extends Model
         $client = Clients::getClient($maxLedger->LDGR_CLNT_ID);
         if(isset($client)) {
           if(strcmp($client->CLNT_ACTP, "18")  == 0){
-            Clients::updateClientBalance($maxLedger->LDGR_CLNT_ID, $maxLedger->LDGR_GD18_AMNT, $maxLedger->LDGR_MONY_AMNT, false); //Increment Balance
+            Clients::updateClientBalance($maxLedger->LDGR_CLNT_ID, $maxLedger->LDGR_GD18_AMNT*-1, $maxLedger->LDGR_MONY_AMNT*-1, false); //Increment Balance
           } else {
-            Clients::updateClientBalance($maxLedger->LDGR_CLNT_ID, $maxLedger->LDGR_GD21_AMNT, $maxLedger->LDGR_MONY_AMNT, false); //Increment Balance
+            Clients::updateClientBalance($maxLedger->LDGR_CLNT_ID, $maxLedger->LDGR_GD21_AMNT*-1, $maxLedger->LDGR_MONY_AMNT*-1, false); //Increment Balance
           }
         }
           return DB::table('ledger')->where('id', $maxLedger->id)->delete();

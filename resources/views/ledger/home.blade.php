@@ -22,7 +22,7 @@
                         </div>
                         <div class="ml-auto">
                           @if(!$clientPage)
-                            <h2 class="counter text-primary"> {{number_format($maxLedger->LDGR_GD21_CURR)}} جم  </h2>
+                            <h2 class="counter text-primary"> {{number_format($maxLedger->LDGR_GD21_CURR, 2)}} جم  </h2>
                           @else
                             <h2 class="counter text-primary"> {{$client->CLNT_ACTP}} </h2>
                           @endif
@@ -51,9 +51,9 @@
                         </div>
                         <div class="ml-auto">
                           @if(!$clientPage)
-                            <h2 class="counter text-cyan"> {{number_format($maxLedger->LDGR_GD18_CURR)}} جم  </h2>
+                            <h2 class="counter text-cyan"> {{number_format($maxLedger->LDGR_GD18_CURR, 2)}} جم  </h2>
                           @else
-                            <h2 class="counter text-cyan"> {{number_format($client->CLNT_CRGD)}} جم  </h2>
+                            <h2 class="counter text-cyan"> {{number_format($client->CLNT_CRGD, 2)}} جم  </h2>
                           @endif
                         </div>
                     </div>
@@ -90,7 +90,7 @@
 </div>
 
 <!-- ============================================================== -->
-<!-- End Info box -->
+<!-- End Info box
 <!-- ============================================================== -->
 
 <div class="row">
@@ -107,9 +107,9 @@
                         <th > {{ $client->CLNT_NAME}}</th>
                         <th></th>
                         <th>رصيد ذهب</th>
-                        <th >{{ number_format($client->CLNT_CRGD) }}</th>
+                        <th >{{ number_format($client->CLNT_CRGD, 2) }}</th>
                         <th>نقديه</th>
-                        <th>{{number_format($client->CLNT_CRMN)}}</th>
+                        <th>{{number_format($client->CLNT_CRMN, 2)}}</th>
                    ">
                    @endif
                     <table id="yomeya" class="table color-bordered-table table-striped full-color-table full-dark-table hover-table" data-display-length='50' data-order=[]  >
@@ -160,20 +160,24 @@
                                   <td class="text-black" >
                                   {{$ledgeraya->LDGR_CMNT}}
                                   </td>
-                                  @endif
-                                <td>{{number_format($ledgeraya->LDGR_GD21_AMNT)}}</td>
-                                <td>{{number_format($ledgeraya->LDGR_GD18_AMNT)}}</td>
+								  @else
+								  <td class="text-black" >
+                                  "بدون عميل"
+                                  </td>
+								  @endif
+                                <td>{{number_format($ledgeraya->LDGR_GD21_AMNT, 2)}}</td>
+                                <td>{{number_format($ledgeraya->LDGR_GD18_AMNT, 2)}}</td>
                                 @if($clientPage)
-                                <td>{{number_format($ledgeraya->LDGR_GOLD_CLNT)}}</td>
+                                <td>{{number_format($ledgeraya->LDGR_GOLD_CLNT, 2)}}</td>
                                 @endif
                                 <td>{{number_format($ledgeraya->LDGR_MONY_AMNT)}}</td>
                                 @if($clientPage)
                                 <td>{{number_format($ledgeraya->LDGR_MONY_CLNT)}}</td>
                                 @endif
                                 @if(!$clientPage)
-                                <td>{{number_format($ledgeraya->LDGR_GD21_CURR)}}</td>
-                                <td>{{number_format($ledgeraya->LDGR_GD18_CURR)}}</td>
-                                <td>{{number_format($ledgeraya->LDGR_MONY_CURR)}}</td>
+                                <td>{{number_format($ledgeraya->LDGR_GD21_CURR, 2)}}</td>
+                                <td>{{number_format($ledgeraya->LDGR_GD18_CURR, 2)}}</td>
+                                <td>{{number_format($ledgeraya->LDGR_MONY_CURR, 2)}}</td>
                                 <td>{{$ledgeraya->username}}</td>
                                 <td>
                                 @if ($key==0 && !(isset($ledgeraya->LDGR_CMNT)

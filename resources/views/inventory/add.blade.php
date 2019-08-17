@@ -40,7 +40,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon22"><i class="fas fa-boxes"></i></span>
                             </div>
-                            <input type="number" class="form-control" name=count placeholder="Available in Stock" aria-label="Available in Stock" aria-describedby="basic-addon22" value="{{ (isset($inventory)) ? $inventory->INVT_CONT : old('count')}}" >
+                            <input type="number" class="form-control" name=count placeholder="Available in Stock" aria-label="Available in Stock" aria-describedby="basic-addon22" value="{{ (isset($inventory)) ? $inventory->INVT_CONT : 0}}" required>
                         </div>
                     </div>
 

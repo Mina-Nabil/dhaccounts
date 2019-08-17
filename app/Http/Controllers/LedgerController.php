@@ -35,9 +35,15 @@ class LedgerController extends Controller
         $data['clients'] = Clients::getTotals();
         $data['totalGold'] = ($data['maxLedger']->LDGR_GD18_CURR * (18/24) ) + ($data['maxLedger']->LDGR_GD21_CURR * (21/24) );
         $data['total18'] = ($data['maxLedger']->LDGR_GD18_CURR * (18/24) );
+		if( $data['totalGold'] * 100 != 0 )
         $data['percent18'] = $data['total18']  /  $data['totalGold'] * 100;
+		else
+		$data['percent18'] = 0;
         $data['total21'] = ($data['maxLedger']->LDGR_GD21_CURR * (21/24) );
+		if( $data['totalGold'] * 100 != 0 )
         $data['percent21'] = $data['total21']  /  $data['totalGold'] * 100;
+	    else 
+	    $data['percent21'] = 0;
       }
 
 
@@ -61,7 +67,7 @@ class LedgerController extends Controller
 
     public function totals(Request $request){
       $password = $request->password12 ;
-      if(strcmp($password, "clark123") !=0 ){
+      if(strcmp($password, "2709") !=0 ){
         return redirect('home');
       }
 
