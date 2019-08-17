@@ -23,7 +23,11 @@
                         <tbody>
                             @foreach($Tabledata as $workshop)
                             <tr title="{{$workshop->WKSP_CMNT}}">
-                                <td>{{$workshop->WKSP_NAME}}</td>
+                                <td>
+                                  <a href="{{url('transactions/show/' . $workshop->id)}}" >
+                                    {{$workshop->WKSP_NAME}}
+                                  </a>
+                                </td>
                                 <td>{{$workshop->WKSP_GD18}}</td>
                                 <td>{{$workshop->WKSP_GD21}}</td>
                                 <td>{{$workshop->WKSP_MONY}}</td>

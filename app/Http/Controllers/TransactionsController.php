@@ -16,6 +16,38 @@ class TransactionsController extends Controller
 
     public function show(){
       $data['transactions'] = Transactions::getAllTransaction();
+      $data['workshopPage'] = false;
+      return view('transactions.home', $data);
+    }
+
+    public function showWorkshop($workshopID){
+      $data['transactions'] = Transactions::getTransactionByWorkshop($workshopID);
+      $data['workshopPage'] = true;
+      if($workshopID==0)
+        $data['workshop'] = (object) array('WKSP_NAME' => 'يوميه', 'id'=> 0);
+      else
+        $data['workshop']     = Workshops::get($workshopID);
+
+      $data['workshopFormURL'] = url('transactions/records');
+
+      return view('transactions.home', $data);
+    }
+
+    public function showWorkshopRecords(Request $request){
+
+      $workshopID = $request->workshopID;
+      $startDate = $request->startDate;
+      $endDate   = $request->endDate;
+
+      $data['transactions'] = Transactions::getTransactionRecordsByWorkshop($workshopID, $startDate, $endDate);
+      $data['workshopPage'] = true;
+      if($workshopID==0)
+        $data['workshop'] = (object) array('WKSP_NAME' => 'يوميه', 'id'=> 0);
+      else
+        $data['workshop']     = Workshops::get($workshopID);
+
+      $data['workshopFormURL'] = url('transactions/records');
+
       return view('transactions.home', $data);
     }
 

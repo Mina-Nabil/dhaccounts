@@ -20,6 +20,27 @@ class Transactions extends Model
           ->get();
     }
 
+    public static function getTransactionByWorkshop($id){
+      return DB::table('transactions')->leftJoin('inventory', 'WKTN_INVT_ID', 'inventory.id')
+          ->select('transactions.*', 'inventory.INVT_NAME', DB::raw("(SELECT WKSP_NAME FROM workshops WHERE id = transactions.WKTN_WKSP_FROM) as fromWKSP") , DB::raw("(SELECT WKSP_NAME FROM workshops WHERE id = transactions.WKTN_WKSP_TO) as toWKSP"))
+          ->where('transactions.WKTN_WKSP_TO', '=', $id)->orWhere('transactions.WKTN_WKSP_FROM', '=', $id)
+          ->orderby('id', 'desc')
+          ->limit(500)
+          ->get();
+    }
+
+    public static function getTransactionRecordsByWorkshop($id, $startDate, $endDate){
+      return DB::table('transactions')->leftJoin('inventory', 'WKTN_INVT_ID', 'inventory.id')
+          ->select('transactions.*', 'inventory.INVT_NAME', DB::raw("(SELECT WKSP_NAME FROM workshops WHERE id = transactions.WKTN_WKSP_FROM) as fromWKSP") , DB::raw("(SELECT WKSP_NAME FROM workshops WHERE id = transactions.WKTN_WKSP_TO) as toWKSP"))
+          ->whereBetween('WKTN_DATE', [$startDate, $endDate])
+          ->where(function($query) use($id){
+            $query->where('transactions.WKTN_WKSP_TO', '=', $id)->orWhere('transactions.WKTN_WKSP_FROM', '=', $id);
+          })
+          ->orderby('id', 'desc')
+          ->limit(500)
+          ->get();
+    }
+
     /*
     * fromID = 0 -> ledger to workshop
     * toID = 0 -> workshop to inventory

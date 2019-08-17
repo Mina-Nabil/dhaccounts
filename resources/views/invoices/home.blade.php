@@ -76,11 +76,13 @@ function revert(id){
                                   @elseif($invoice->INVC_STAT == 1)
                                   <span class="label label-success">مؤكده</span>
                                   @elseif($invoice->INVC_STAT == 2)
-                                  <span class="label label-danger">ملغي</span>
+                                  <span class="label label-warning">ملغي</span>
                                   @elseif($invoice->INVC_STAT == 4)
                                   <span class="label label-danger">تم استرجاع الفاتوره</span>
                                   @elseif($invoice->INVC_STAT == 5)
-                                  <span class="label label-inverted">فاتوره مرتجع</span>
+                                  <span class="label label-danger">فاتوره مرتجع</span>
+                                  @elseif($invoice->INVC_STAT == 3)
+                                  <span class="label label-warning"> فاتوره مرتجع غير مؤكده</span>
                                   @endif
                                 </a>
                                 </td>

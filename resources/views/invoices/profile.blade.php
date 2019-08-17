@@ -21,7 +21,7 @@ function cancel(id){
 
 }
 
-function confirm(id){
+function confirmRev(id){
 
 
   swal({
@@ -233,7 +233,7 @@ function revert(id){
                   @elseif($invoice['invoiceData']->INVC_STAT == 1)
                   <button onclick="revert({{$invoice['invoiceData']->id}})" class="btn btn-danger">إسترجاع الفاتوره</button>
                   @elseif($invoice['invoiceData']->INVC_STAT == 3)
-                  <button onclick="confirmRevert({{$invoice['invoiceData']->id}})" class="btn btn-success">تأكيد الفاتوره المرتجع</button>
+                  <button onclick="confirmRev({{$invoice['invoiceData']->id}})" class="btn btn-success">تأكيد الفاتوره المرتجع</button>
                   @endif
               </div>
           </div>

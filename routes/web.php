@@ -41,6 +41,8 @@ Route::get('ledger/delete', 'LedgerController@delete');
 
 //Transactions
 Route::get('transactions/show', 'TransactionsController@show');
+Route::get('transactions/show/{workshopID}', 'TransactionsController@showWorkshop');
+Route::post('transactions/records', 'TransactionsController@showWorkshopRecords');
 Route::get('transactions/add', 'TransactionsController@addPage');
 Route::post('transactions/insert', 'TransactionsController@insert');
 
