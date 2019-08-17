@@ -70,12 +70,19 @@
                           <input type="number" min=0 step="0.01" class="form-control" placeholder="Money Entry" name=Money aria-label="Money Entry" aria-describedby="basic-addon11" value="{{ (old('Money')) ? old('Money') : 0}}">
                       </div>
                     </div>
-					
+
 					<div class="form-group"  >
                         <div class="custom-control custom-checkbox mr-sm-2">
                             <input type="checkbox" class="custom-control-input" id=checkbox10 name=isSalary value="check">
                             <label class="custom-control-label" for="checkbox10">&nbsp &nbsp &nbsp &nbsp اجره </label>
                         </div>
+                    </div>
+                    <label>Comment</label>
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon11"><i class="mdi mdi-comment-text-outline"></i></span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="Comment" name=comment aria-label="comment" aria-describedby="basic-addon11" value="{{ (old('comment')) ? old('comment') : '' }}">
                     </div>
 
                     <div class="form-group">
@@ -104,6 +111,7 @@
                         </div>
                         <input type="number" min=0 step="1" class="form-control" placeholder="Items Count" name=count aria-label="Count" aria-describedby="basic-addon11" value="{{ (old('count')) ? old('count') : 0 }}">
                     </div>
+
 
                     <button type="submit" id=submit class="btn btn-success mr-2">Submit</button>
                     <a href="{{url('home') }}" class="btn btn-dark">Cancel</a>

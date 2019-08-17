@@ -66,11 +66,12 @@ class TransactionsController extends Controller
       $moneyAmount = $request->Money;
       $entryGold21 = $request->Gold21;
       $entryGold18 = $request->Gold18;
-	  $isSalary = $request->isSalary;
+	    $isSalary = $request->isSalary;
       $inventoryID = $request->inventoryID;
       $count = $request->count;
+      $comment = $request->comment;
 
-      Transactions::insertTransaction($fromID, $toID, $entryGold18, $entryGold21, $moneyAmount, Auth::id(), $inventoryID, $count, $isSalary);
+      Transactions::insertTransaction($fromID, $toID, $entryGold18, $entryGold21, $moneyAmount, Auth::id(), $inventoryID, $count, $isSalary, $comment);
 
       return redirect('transactions/show');
 

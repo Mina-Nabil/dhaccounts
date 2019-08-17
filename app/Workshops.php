@@ -40,6 +40,7 @@ class Workshops extends Model
     }
 
     public static function updateWorkshopBalance($id, $gold18, $gold21, $money){
+
       DB::table('workshops')->where('id', $id)->update([
         "WKSP_GD18" => DB::raw('WKSP_GD18 + ' . $gold18),
         "WKSP_GD21" => DB::raw('WKSP_GD21 + ' . $gold21),

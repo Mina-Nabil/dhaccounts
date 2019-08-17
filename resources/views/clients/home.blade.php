@@ -28,8 +28,8 @@
                                    </a>
                                  </td>
                                 <td>{{$client->CLNT_ACTP}}</td>
-                                <td>{{$client->CLNT_CRGD}}</td>
-                                <td>{{$client->CLNT_CRMN}}</td>
+                                <td>{{number_format($client->CLNT_CRGD, 2)}}</td>
+                                <td>{{number_format($client->CLNT_CRMN)}}</td>
                                 <td>{{$client->CLNT_MOB}}</td>
                                 <td><a href="{{ url('clients/edit/' . $client->id) }}"><img src="{{ asset('images/edit.png') }}" width=25 height=25></img></a></td>
                             </tr>

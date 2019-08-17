@@ -28,7 +28,12 @@
                         </thead>
                         <tbody>
                             @foreach($transactions as $key => $item)
-                            <tr>
+                            <tr
+                            @if(isset($item->WKTN_CMNT))
+                            title="{{$item->WKTN_CMNT}}"
+                            class="table-warning"
+                            @endif
+                             >
                                 <td>{{$item->WKTN_DATE}}</td>
                                 <td>
                                   <a href="{{url('transactions/show/' . $item->WKTN_WKSP_FROM)}}" >
@@ -40,12 +45,17 @@
                                     {{($item->WKTN_WKSP_TO == 0)?'مخزن' : $item->toWKSP }}
                                   </a>
                                 </td>
-                                <td>{{number_format($item->WKTN_GD21, 3)}}</td>
-                                <td>{{number_format($item->WKTN_GD18, 3)}}</td>
-                                <td>{{number_format($item->WKTN_MONY, 2)}}</td>
+                                <td>{{number_format($item->WKTN_GD21, 2)}}</td>
+                                <td>{{number_format($item->WKTN_GD18, 2)}}</td>
+                                <td>{{number_format($item->WKTN_MONY)}}</td>
                                 <td>{{$item->INVT_NAME}}</td>
                                 <td>{{$item->WKTN_INVT_CONT}}</td>
                             </tr>
+                            <!-- @if(isset($item->WKTN_CMNT))
+                            <tr>
+                              <td colspan="8">{{$item->WKTN_CMNT}}</td>
+                            </tr>
+                            @endif -->
                             @endforeach
                         </tbody>
                     </table>
